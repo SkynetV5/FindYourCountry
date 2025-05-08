@@ -12,10 +12,12 @@ export default function Navbar() {
       </div>
       <div className="flex items-center w-3/4 justify-center ">
         <ul className="flex flex-row gap-10 items-center">
-          <li className=" flex flex-row text-lg gap-1">
-            Search
-            <img src={searchIcon} />
-          </li>
+          <Link to={"/search"}>
+            <li className=" flex flex-row text-lg gap-1">
+              Search
+              <img src={searchIcon} />
+            </li>
+          </Link>
           <li className="text-lg">All Countries</li>
           <li className="text-lg">About</li>
           <li className="text-lg">Contact</li>
