@@ -2,6 +2,7 @@ import searchIcon from "../../assets/search.svg";
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 
 export default function Search() {
   const [searchTerm, setSearchTerm] = useState<string>("name");
@@ -10,6 +11,7 @@ export default function Search() {
   const [searchValue, setSearchValue] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   function handleSearchChange(event: React.ChangeEvent<HTMLSelectElement>) {
     setSearchTerm(event.target.value);
@@ -28,21 +30,20 @@ export default function Search() {
     }
   }
 
-  function fetchData(searchTerm: string, searchValue: string) {
+  async function fetchData(searchTerm: string, searchValue: string) {
+    let countryName = "";
+
     if (searchTerm === "") {
       return;
     }
     if (searchValue === "") {
       return;
     }
-    fetch(`https://restcountries.com/v3.1/${searchTerm}/${searchValue}`)
+    await fetch(`https://restcountries.com/v3.1/${searchTerm}/${searchValue}`)
       .then((response) => {
         setLoading(true);
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
         if (response.status === 404) {
-          setErrorMessage("Country not found");
+          setErrorMessage("Country not found!");
           setLoading(false);
           return;
         }
@@ -58,8 +59,10 @@ export default function Search() {
         return response.json();
       })
       .then((data) => {
-        if (data) {
+        if (data && data.length == 1) {
+          countryName = searchValue;
           console.log(data);
+          console.log(countryName);
         }
         setLoading(false);
       })
@@ -67,6 +70,13 @@ export default function Search() {
         setErrorMessage("An error occurred: " + error.message);
         setLoading(false);
       });
+
+    console.log(countryName);
+
+    if (countryName !== "") {
+      console.log("XD");
+      navigate(`/country/${countryName}`);
+    }
   }
 
   return (
