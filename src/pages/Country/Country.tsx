@@ -5,16 +5,60 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { MoonLoader } from "react-spinners";
 
+interface CountryInfo {
+  name: {
+    common: string;
+    official: string;
+    nativeName: {
+      [key: string]: {
+        official: string;
+        common: string;
+      };
+    };
+  };
+  flags: { svg: string; png: string; alt: string };
+  coatOfArms: { svg: string };
+  capital: string[];
+  languages: { [key: string]: string };
+  continents: string[];
+  population: string;
+  currencies?: {
+    [key: string]: {
+      name: string;
+      symbol: string;
+    };
+  };
+  postalCode: { format: string };
+  maps: { googleMaps: string; openStreetMaps: string };
+  borders: string[];
+}
+
 export default function Country() {
   const { countryName } = useParams();
   const [loading, setLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [isError, setIsError] = useState<boolean>(false);
   const navigate = useNavigate();
-  const [countryInfo, setCountryInfo] = useState<object>([]);
+  const [countryInfo, setCountryInfo] = useState<CountryInfo>({
+    name: {
+      common: "",
+      official: "",
+      nativeName: {},
+    },
+    flags: { svg: "", png: "", alt: "" },
+    coatOfArms: { svg: "" },
+    capital: [],
+    languages: {},
+    continents: [],
+    population: "",
+    currencies: {},
+    postalCode: { format: "" },
+    maps: { googleMaps: "", openStreetMaps: "" },
+    borders: [],
+  });
   const [googleMapsUrl, setGoogleMapsUrl] = useState<string>("");
   const [openStreetsMapsUrl, setOpenStreetsMapsUrl] = useState<string>("");
-  const [borderCountries, setBorderCountries] = useState<[]>([]);
+  const [borderCountries, setBorderCountries] = useState<string[]>([]);
   console.log(countryName);
 
   useEffect(() => {
@@ -105,9 +149,11 @@ export default function Country() {
         </div>
       )}
       {isError && !loading && (
-        <div className="w-full h-screen justify-center items-center flex flex-col gap-5">
-          <p className="text-5xl text-stone-700">{errorMessage}</p>
-          <p className="text-2xl text-stone-500">Spróbuj ponownie później</p>
+        <div className="w-full h-screen justify-center items-center text-center flex flex-col gap-5">
+          <p className="lg:text-5xl text-2xl text-stone-700">{errorMessage}</p>
+          <p className="lg:text-2xl text-lg text-stone-500">
+            Spróbuj ponownie później
+          </p>
           <button
             className="mt-4 border-1 border-stone-600 px-10 py-2 rounded-md bg-stone-800 text-white hover:bg-white hover:text-stone-800 cursor-pointer transition duration-300 ease-in-out"
             onClick={() => {
@@ -123,29 +169,34 @@ export default function Country() {
         <>
           <Navbar />
           <div className="relative flex z-10 flex-col w-full h-full items-center pt-14 mb-24 ">
-            <p className="text-6xl font-semibold text-stone-800">
+            <p className="text-6xl font-semibold text-stone-800 text-center">
               {countryInfo?.name?.common}
             </p>
-            <p className="text-2xl font-semibold text-stone-700 pt-2">
+            <p className="text-2xl font-semibold text-stone-700 pt-2 text-center">
               {countryInfo?.name?.official}
             </p>
             <div className="w-full h-full mx-20 mt-10 lg:px-32 md:px-20 px-5  ">
               <div className="border-2 rounded-sm flex bg-stone-100 border-stone-500 shadow-xl">
-                <div className="w-2/6 min-h-full border-r-2 border-b-2 flex flex-col px-2 py-10 border-stone-200 gap-10 shadow-xl items-center">
+                <div className="lg:w-2/6 w-3/6 min-h-full border-r-2 border-b-2 flex flex-col px-2 py-10 border-stone-200 gap-10 shadow-xl items-center">
                   <div>
                     <p className="text-center text-md mb-5">Flag:</p>
-                    <img
-                      className="w-32 h-auto"
-                      src={countryInfo?.flags?.svg}
-                      alt={countryInfo?.flags?.alt}
-                    />
+                    {countryInfo?.flags?.svg ? (
+                      <img
+                        className="w-32 h-auto"
+                        src={countryInfo.flags.svg}
+                        alt={countryInfo.flags.alt}
+                      />
+                    ) : null}
                   </div>
                   <div>
                     <p className="text-center text-md mb-5">Coat of arms:</p>
-                    <img
-                      className="w-32 h-auto"
-                      src={countryInfo?.coatOfArms?.svg}
-                    />
+                    {countryInfo?.coatOfArms?.svg ? (
+                      <img
+                        className="w-32 h-auto"
+                        src={countryInfo.coatOfArms.svg}
+                        alt="Coat of arms"
+                      />
+                    ) : null}
                   </div>
                   <div>
                     <p className="text-center text-md mb-5">Maps:</p>
@@ -171,12 +222,12 @@ export default function Country() {
                             countryInfo.name.nativeName
                           )[0];
                           const native = countryInfo.name.nativeName[firstKey];
-                          return (
+                          return native ? (
                             <>
                               <li>Official: {native.official}</li>
                               <li>Common: {native.common}</li>
                             </>
-                          );
+                          ) : null;
                         })()}
                       </ul>
                     )}
@@ -185,9 +236,11 @@ export default function Country() {
                     <p className="text-xl font-semibold">Capital:</p>
                     <ul className="pt-2">
                       {countryInfo?.capital &&
-                        countryInfo.capital.map((capital, index) => (
-                          <li key={index}>{capital}</li>
-                        ))}
+                        (countryInfo.capital as string[]).map(
+                          (capital: string, index: number) => (
+                            <li key={index}>{capital}</li>
+                          )
+                        )}
                     </ul>
                   </div>
                   <div>
@@ -210,9 +263,9 @@ export default function Country() {
                     </p>
                     <ul className="pt-2">
                       {countryInfo?.continents &&
-                        countryInfo.continents.map((continent, index) => (
-                          <li key={index}>{continent}</li>
-                        ))}
+                        (countryInfo.continents as string[]).map(
+                          (continent, index) => <li key={index}>{continent}</li>
+                        )}
                     </ul>
                   </div>
                   <div>

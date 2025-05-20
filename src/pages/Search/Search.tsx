@@ -15,13 +15,14 @@ export default function Search() {
 
   function handleSearchChange(event: React.ChangeEvent<HTMLSelectElement>) {
     setSearchTerm(event.target.value);
+    console.log(searchTerm);
     if (event.target.value === "name") {
       setSearchPlaceholder("Search by name...");
     } else if (event.target.value === "capital") {
       setSearchPlaceholder("Search by capital...");
-    } else if (event.target.value === "code") {
+    } else if (event.target.value === "alpha") {
       setSearchPlaceholder("Search by code...");
-    } else if (event.target.value === "language") {
+    } else if (event.target.value === "lang") {
       setSearchPlaceholder("Search by language...");
     } else if (event.target.value === "region") {
       setSearchPlaceholder("Search by region...");
@@ -60,9 +61,9 @@ export default function Search() {
       })
       .then((data) => {
         if (data && data.length == 1) {
-          countryName = searchValue;
           console.log(data);
           console.log(countryName);
+          countryName = data[0]?.name?.common;
         }
         setLoading(false);
       })
@@ -82,7 +83,7 @@ export default function Search() {
   return (
     <>
       <Navbar />
-      <div className="flex flex-col items-center py-40 h-screen">
+      <div className="relative flex flex-col items-center pt-40 py-20  min-h-screen">
         <h1 className="ml-5 flex flex-row gap-3 text-4xl font-bold text-stone-800">
           Search
           <img src={searchIcon} className="w-8 mt-1" />
@@ -90,13 +91,13 @@ export default function Search() {
         <div className="flex flex-col w-full items-center">
           <input
             type="text"
-            className="w-1/3 h-8 mt-4 border-1 border-stone-600 rounded-md pl-2"
+            className="md:w-1/3 w-2/3 h-8 mt-4 border-1 border-stone-600 rounded-md pl-2"
             placeholder={searchPlaceholder}
             onChange={(e) => setSearchValue(e.target.value)}
             value={searchValue}
           />
           <select
-            className="w-1/3 h-8 mt-4 border-1 border-stone-600 rounded-md pl-2"
+            className="md:w-1/3 w-2/3 h-8 mt-4 border-1 border-stone-600 rounded-md pl-2"
             onChange={handleSearchChange}
           >
             <option value="name">Name</option>
@@ -107,7 +108,7 @@ export default function Search() {
             <option value="subregion">Subregion</option>
           </select>
         </div>
-        <p className="mt-4 text-lg text-stone-600">
+        <p className="mt-4 text-lg text-stone-600 text-center">
           Search for countries and their details.
         </p>
         <button
