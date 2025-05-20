@@ -4,34 +4,7 @@ import Footer from "../../components/Footer";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { MoonLoader } from "react-spinners";
-
-interface CountryInfo {
-  name: {
-    common: string;
-    official: string;
-    nativeName: {
-      [key: string]: {
-        official: string;
-        common: string;
-      };
-    };
-  };
-  flags: { svg: string; png: string; alt: string };
-  coatOfArms: { svg: string };
-  capital: string[];
-  languages: { [key: string]: string };
-  continents: string[];
-  population: string;
-  currencies?: {
-    [key: string]: {
-      name: string;
-      symbol: string;
-    };
-  };
-  postalCode: { format: string };
-  maps: { googleMaps: string; openStreetMaps: string };
-  borders: string[];
-}
+import type { CountryInfo } from "../../components/interfaces";
 
 export default function Country() {
   const { countryName } = useParams();
@@ -55,6 +28,8 @@ export default function Country() {
     postalCode: { format: "" },
     maps: { googleMaps: "", openStreetMaps: "" },
     borders: [],
+    region: "",
+    subregion: "",
   });
   const [googleMapsUrl, setGoogleMapsUrl] = useState<string>("");
   const [openStreetsMapsUrl, setOpenStreetsMapsUrl] = useState<string>("");
@@ -254,6 +229,7 @@ export default function Country() {
                         ))}
                     </ul>
                   </div>
+
                   <div>
                     <p className="text-xl font-semibold">
                       {countryInfo?.continents?.length == 1
@@ -267,6 +243,22 @@ export default function Country() {
                           (continent, index) => <li key={index}>{continent}</li>
                         )}
                     </ul>
+                  </div>
+                  <div>
+                    <p className="text-xl font-semibold">
+                      Region:{" "}
+                      <span className="text-md pl-1 font-normal">
+                        {countryInfo?.region}
+                      </span>
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-xl font-semibold">
+                      Subregion:{" "}
+                      <span className="text-md pl-1 font-normal">
+                        {countryInfo?.subregion}
+                      </span>
+                    </p>
                   </div>
                   <div>
                     {" "}

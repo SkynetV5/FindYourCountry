@@ -33,6 +33,7 @@ export default function Search() {
 
   async function fetchData(searchTerm: string, searchValue: string) {
     let countryName = "";
+    let searchedCountries = "";
 
     if (searchTerm === "") {
       return;
@@ -61,9 +62,12 @@ export default function Search() {
       })
       .then((data) => {
         if (data && data.length == 1) {
-          console.log(data);
-          console.log(countryName);
           countryName = data[0]?.name?.common;
+          if (countryName !== "") {
+            navigate(`/country/${countryName}`);
+          }
+        } else if (data && data.length > 1) {
+          navigate(`/searched-countries/${searchTerm}/${searchValue}`);
         }
         setLoading(false);
       })
@@ -73,11 +77,6 @@ export default function Search() {
       });
 
     console.log(countryName);
-
-    if (countryName !== "") {
-      console.log("XD");
-      navigate(`/country/${countryName}`);
-    }
   }
 
   return (

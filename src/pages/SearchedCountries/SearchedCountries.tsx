@@ -2,38 +2,12 @@ import { useEffect, useState } from "react";
 import CountryCard from "../../components/CountryCard";
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { MoonLoader } from "react-spinners";
+import type { CountryInfo } from "../../components/interfaces";
 
-interface CountryInfo {
-  name: {
-    common: string;
-    official: string;
-    nativeName: {
-      [key: string]: {
-        official: string;
-        common: string;
-      };
-    };
-  };
-  flags: { svg: string; png: string; alt: string };
-  coatOfArms: { svg: string };
-  capital: string[];
-  languages: { [key: string]: string };
-  continents: string[];
-  population: string;
-  currencies?: {
-    [key: string]: {
-      name: string;
-      symbol: string;
-    };
-  };
-  postalCode: { format: string };
-  maps: { googleMaps: string; openStreetMaps: string };
-  borders: string[];
-}
-
-export default function AllCountries() {
+export default function SearchedCountries() {
+  const { searchTerm, searchValue } = useParams();
   const [loading, setLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [isError, setIsError] = useState<boolean>(false);
@@ -44,7 +18,9 @@ export default function AllCountries() {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`https://restcountries.com/v3.1/all`);
+        const response = await fetch(
+          `https://restcountries.com/v3.1/${searchTerm}/${searchValue}`
+        );
         if (response.status === 404) {
           navigate("/notfound");
           setLoading(false);
@@ -107,11 +83,11 @@ export default function AllCountries() {
           <Navbar />
           <div className="relative flex z-10 flex-col w-full h-full items-center pt-14 mb-24 ">
             <p className="text-6xl font-semibold text-stone-800 text-center">
-              All countries
+              Searched Countries
             </p>
             <div>
               <div className="w-screen h-full mt-10 lg:px-32 md:px-20 px-5  ">
-                <div className="grid grid-flow-row lg:grid-cols-3 md:grid-cols-2 grid-cols-1  gap-4">
+                <div className="grid grid-flow-row lg:grid-cols-3 md:grid-cols-2 grid-cols-1  gap-4 items-start">
                   {countryInfo.map((country, idx) => (
                     <CountryCard
                       key={idx}

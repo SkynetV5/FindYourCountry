@@ -1,6 +1,8 @@
 import Navbar from "../../components/Navbar";
 import map from "../../assets/maps.PNG";
 import Footer from "../../components/Footer";
+import searchPage from "../../assets/searchPage.png";
+import countryInfo from "../../assets/countryInfo.png";
 
 export default function Home() {
   return (
@@ -24,9 +26,14 @@ export default function Home() {
           <p className="text-3xl font-bold text-stone-800">
             🔍 Search countries
           </p>
+
           <p className="mt-4 text-lg text-stone-600">
             You can search or find all countries in tab "All Countries"
           </p>
+          <img
+            src={searchPage}
+            className="w-2/3 rounded-lg border-3 border-stone-400 mt-4"
+          />
         </div>
         <div className="flex flex-col items-end   px-40 py-24">
           <p className="text-3xl font-bold text-stone-800">
@@ -36,6 +43,10 @@ export default function Home() {
           <p className="mt-4 text-lg text-stone-600">
             You can search or find all countries in tab "All Countries"
           </p>
+          <img
+            src={countryInfo}
+            className="w-2/3 rounded-lg border-3 border-stone-400 mt-4"
+          />
         </div>
         <div className="flex flex-col  bg-stone-100  px-40 py-28">
           <p className="text-3xl font-bold text-stone-800">
@@ -45,15 +56,10 @@ export default function Home() {
             You find in country details link to map (Google Maps /
             OpenStreetMap) with location of country
           </p>
-          <img src={map} className="w-2/3 mt-4" />
-        </div>
-        <div className="flex flex-col items-end   px-40 py-24">
-          <p className="text-3xl font-bold text-stone-800">
-            🏳️ Check out the flag and other fun facts.
-          </p>
-          <p className="mt-4 text-lg text-stone-600">
-            You find in country details link to map with location of country
-          </p>
+          <img
+            src={map}
+            className="w-2/3 rounded-lg border-3 border-stone-400 mt-4"
+          />
         </div>
       </div>
       <Footer />

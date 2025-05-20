@@ -18,7 +18,7 @@ export default function CountryCard({
   return (
     <div className="w-full flex flex-col h-auto border-2 border-stone-500 rounded-md shadow-xl bg-stone-100">
       <Link to={`/country/${name}`}>
-        <div className="flex flex-row justify-around py-3 h-24">
+        <div className="flex flex-row justify-around py-3 h-24 gap-5 ">
           <img className="w-24 h-auto" src={flag} alt={alt} />
           <img className="w-16 h-auto" src={coutOfArms} />
         </div>
