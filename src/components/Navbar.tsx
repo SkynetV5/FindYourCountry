@@ -46,7 +46,9 @@ export default function Navbar() {
           <Link to={"/all-countries"}>
             <li className="lg:text-lg md:text-md sm:text-sm">All Countries</li>
           </Link>
-          <li className="lg:text-lg md:text-md sm:text-sm">About</li>
+          <Link to={"/about"}>
+            <li className="lg:text-lg md:text-md sm:text-sm">About</li>
+          </Link>
         </ul>
       </div>
       <div className="lg:hidden flex items-center px-5">
@@ -101,7 +103,9 @@ export default function Navbar() {
                 All Countries
               </li>
             </Link>
-            <li className="lg:text-lg md:text-md sm:text-sm">About</li>
+            <Link to={"/about"}>
+              <li className="lg:text-lg md:text-md sm:text-sm">About</li>
+            </Link>
           </ul>
         </div>
       )}

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { MoonLoader } from "react-spinners";
 import type { CountryInfo } from "../../components/interfaces";
+import { motion } from "framer-motion";
 
 export default function Country() {
   const { countryName } = useParams();
@@ -144,15 +145,31 @@ export default function Country() {
         <>
           <Navbar />
           <div className="relative flex z-10 flex-col w-full h-full items-center pt-14 mb-24 ">
-            <p className="text-6xl font-semibold text-stone-800 text-center">
+            <motion.p
+              className="text-6xl font-semibold text-stone-800 text-center"
+              initial={{ opacity: 0, y: -20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ ease: "easeInOut", duration: 0.8 }}
+              viewport={{ once: true, amount: 0.2 }}
+            >
               {countryInfo?.name?.common}
-            </p>
-            <p className="text-2xl font-semibold text-stone-700 pt-2 text-center">
+            </motion.p>
+            <motion.p
+              className="text-2xl font-semibold text-stone-700 pt-2 text-center"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ ease: "easeOut", duration: 0.8 }}
+            >
               {countryInfo?.name?.official}
-            </p>
-            <div className="w-full h-full mx-20 mt-10 lg:px-32 md:px-20 px-5  ">
-              <div className="border-2 rounded-sm flex bg-stone-100 border-stone-500 shadow-xl">
-                <div className="lg:w-2/6 w-3/6 min-h-full border-r-2 border-b-2 flex flex-col px-2 py-10 border-stone-200 gap-10 shadow-xl items-center">
+            </motion.p>
+            <motion.div
+              className="w-full h-full mx-20 mt-10 lg:px-32 md:px-20 px-5"
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ ease: "easeOut", duration: 0.8 }}
+            >
+              <motion.div className="border-2 rounded-sm flex bg-stone-100 border-stone-500 shadow-xl">
+                <motion.div className="lg:w-2/6 w-3/6 min-h-full border-r-2 border-b-2 flex flex-col px-2 py-10 border-stone-200 gap-10 shadow-xl items-center">
                   <div>
                     <p className="text-center text-md mb-5">Flag:</p>
                     {countryInfo?.flags?.svg ? (
@@ -171,7 +188,9 @@ export default function Country() {
                         src={countryInfo.coatOfArms.svg}
                         alt="Coat of arms"
                       />
-                    ) : null}
+                    ) : (
+                      <p className=" text-sm text-center">None</p>
+                    )}
                   </div>
                   <div>
                     <p className="text-center text-md mb-5">Maps:</p>
@@ -186,7 +205,7 @@ export default function Country() {
                       </a>
                     </p>
                   </div>
-                </div>
+                </motion.div>
                 <div className="flex flex-col w-4/6 px-10 py-10 gap-5">
                   <div>
                     <p className="text-xl font-semibold">Native name:</p>
@@ -320,8 +339,8 @@ export default function Country() {
                     </ul>
                   </div>
                 </div>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           </div>
           <Footer />
         </>

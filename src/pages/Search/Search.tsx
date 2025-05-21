@@ -3,6 +3,7 @@ import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { motion } from "framer-motion";
 
 export default function Search() {
   const [searchTerm, setSearchTerm] = useState<string>("name");
@@ -82,7 +83,12 @@ export default function Search() {
   return (
     <>
       <Navbar />
-      <div className="relative flex flex-col items-center pt-40 py-20  min-h-screen">
+      <motion.div
+        className="relative flex flex-col items-center pt-40 py-20  min-h-screen"
+        initial={{ opacity: 0, y: -100 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ ease: "easeInOut", duration: 0.8 }}
+      >
         <h1 className="ml-5 flex flex-row gap-3 text-4xl font-bold text-stone-800">
           Search
           <img src={searchIcon} className="w-8 mt-1" />
@@ -122,7 +128,7 @@ export default function Search() {
         {errorMessage && (
           <p className="mt-4 text-lg text-red-600">{errorMessage}</p>
         )}
-      </div>
+      </motion.div>
       <Footer />
     </>
   );
