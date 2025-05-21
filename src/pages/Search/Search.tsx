@@ -34,7 +34,6 @@ export default function Search() {
 
   async function fetchData(searchTerm: string, searchValue: string) {
     let countryName = "";
-    let searchedCountries = "";
 
     if (searchTerm === "") {
       return;
