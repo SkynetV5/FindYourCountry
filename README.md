@@ -4,7 +4,7 @@
 This simple web application is used to find countries. You can search by name, language, region, capital, etc. Each country has basic information such as coat of arms, flag, population, etc.
 
 ## Live preview
-Will be soon.
+See an application here -> https://findyourcountryapp.netlify.app/
 
 ## 🛠️ Instalation & run
 ### Clone repository:
